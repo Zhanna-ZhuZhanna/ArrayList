@@ -6,54 +6,115 @@ namespace DataStructures
     {
         private int[] _array;   
 
-        public int Length { get; private set; }
-
-
+        public int LengthOfList { get; private set; }
 
         public ArrayList()
         {
             _array = new int[3];
-            Length = 0;
+            LengthOfList = 0;
         }
 
         public void Add(int value)
         {
-            if (Length>=_array.Length)
+            if (LengthOfList>=_array.Length)
             {
                 RiseSize();
             }
-            _array[Length] = value;
-            Length++;
+            _array[LengthOfList] = value;
+            LengthOfList++;
         }
         public void ReverseTheList()
         {
             int[] newArray = new int[_array.Length];
-            for (int i=0;i<Length;i++)
+            for (int i=0;i<LengthOfList;i++)
             {
-                newArray[i] = _array[Length - 1 - i];
+                newArray[i] = _array[LengthOfList - 1 - i];
             }
-            Array.Copy(newArray, _array, _array.Length);
+            _array = newArray ;
         }
         public void AddElementToTheBeginning(int value)
         {
-            if (Length>=_array.Length)
+            if (LengthOfList>=_array.Length)
             {
                 RiseSize();
             }
             int[] newArray = new int[_array.Length+1];
             newArray[0] = value;
-
             Array.Copy(_array,0,newArray,1,_array.Length);
-            _array = new int[newArray.Length];
-            Array.Copy(newArray, _array, newArray.Length);
-            Length++;
+            _array = newArray;
+            LengthOfList++;
+        }
+
+        public void AddElementToTheIndex(int value, int index)
+        {
+            if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
+            if (LengthOfList >= _array.Length)
+            {
+                RiseSize();
+            }
+            int[] newArray = new int[_array.Length + 1];
+            newArray[index] = value;
+            for(int i=0;i<index;i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for(int i=index+1;i<newArray.Length;i++)
+            {
+                newArray[i] = _array[i - 1];
+            }
+            _array = newArray;
+            LengthOfList++;
+        }
+
+        public void Remove()
+        {
+            if (LengthOfList == 0) throw new Exception("There is nothing to remove");
+            _array[LengthOfList - 1] = 0;
+            LengthOfList--;
+            if(LengthOfList<_array.Length/2)
+            {
+                ReduceSize();
+            }
+        }
+
+        public void RemoveFromBeginning()
+        {
+            if (LengthOfList == 0) throw new Exception("There is nothing to remove");
+            int[] newArray = new int[_array.Length];
+            Array.Copy(_array, 1, newArray, 0, LengthOfList);
+            _array = newArray;
+            LengthOfList--;
+            if (LengthOfList < _array.Length / 2)
+            {
+                ReduceSize();
+            }
+        }
+
+        public void RemoveFromIndex(int index)
+        {
+            if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
+            int[] newArray = new int[_array.Length];
+            for(int i=0;i<index;i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for(int i=index+1;i<_array.Length;i++)
+            {
+                newArray[i - 1] = _array[i];
+            }
+            _array = newArray;
+            LengthOfList--;
+            if (LengthOfList < _array.Length / 2)
+            {
+                ReduceSize();
+            }
 
         }
 
         public void PrintTheList()
         {
             string n = "";
-            for(int i=0;i<Length;i++)
+            for(int i=0;i<LengthOfList;i++)
             {
                 n += _array[i] + " ";
             }
@@ -74,6 +135,14 @@ namespace DataStructures
             }
             int[] newArray = new int[newLength];
             Array.Copy(_array, newArray, _array.Length);
+            _array = newArray;
+        }
+
+        private void ReduceSize()
+        {
+            int newLength = (int)(_array.Length * 0.66d);
+            int[] newArray = new int[newLength];
+            Array.Copy(_array, newArray, newLength);
             _array = newArray;
         }
     }
