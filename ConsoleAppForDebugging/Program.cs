@@ -13,16 +13,12 @@ namespace ConsoleAppForDebugging
             Console.WriteLine("The length of list is " + list.LengthOfList);
             list.AddElementToTheBeginning(50);
             list.PrintTheList();
-            list.ReverseTheList();
-            list.PrintTheList();
-            list.ReverseTheList();
-            list.PrintTheList();
             list.AddElementToTheIndex(-10, 1);
             list.PrintTheList();
-            list.RemoveFromIndex(2);
-            list.PrintTheList();
-            Console.WriteLine("The length of list is " + list.LengthOfList);
-           
+            ArrayList list2 = list.SortAscending();
+            list2.PrintTheList();
+            ArrayList list3 = list.SortDescending();
+            list3.PrintTheList();
         }
     }
 }
