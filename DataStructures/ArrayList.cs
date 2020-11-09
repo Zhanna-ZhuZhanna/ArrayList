@@ -145,7 +145,6 @@ namespace DataStructures
             _array[index] = value;
         }
 
-
         public int GetMaxElement()
         {
             int max = _array[0];
@@ -253,6 +252,43 @@ namespace DataStructures
             return newList;
         }
 
+        public void RemoveAllElementsByValue(int value)
+        {
+            int amount = 0;
+            for (int i = 0; i < LengthOfList; i++)
+            {
+                if (_array[i] == value) amount++;
+            }
+           if(amount==0)  throw new Exception("There are not elements with value you are looking for");
+            while (amount > 0)
+            {
+                for (int i = 0; i < LengthOfList; i++)
+                {
+                    if (_array[i] == value)
+                    {
+                        RemoveFromIndex(i);
+                        amount--;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        public void RemoveFirstElementByValue(int value)
+        {
+            bool check = true;
+            for(int i=0;i<LengthOfList;i++)
+            {
+                if(_array[i]==value)
+                {
+                    RemoveFromIndex(i);
+                    check = false;
+                    break;
+                }
+            }
+            if(check) throw new Exception("There are not elements with value you are looking for");
+        }
+
         public void PrintTheList()
         {
             string n = "";
@@ -275,7 +311,7 @@ namespace DataStructures
             int newLength = _array.Length;
             while (newLength<_array.Length+amountOfBlankElements)
             {
-                newLength = (int)(newLength * 1.33d);
+                newLength = (int)(newLength * 1.4d);
             }
             int[] newArray = new int[newLength];
             Array.Copy(_array, newArray, _array.Length);
@@ -285,7 +321,7 @@ namespace DataStructures
 
         private void ReduceSize()
         {
-            int newLength = (int)(_array.Length * 0.66d);
+            int newLength = (int)(_array.Length * 0.7d);
             int[] newArray = new int[newLength];
             Array.Copy(_array, newArray, newLength);
             _array = newArray;
