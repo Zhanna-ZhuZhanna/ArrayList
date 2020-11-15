@@ -7,118 +7,154 @@ namespace DataStructures
     {
         private int[] _array;   
         public int LengthOfList { get; private set; }
-
         public ArrayList()
         {
             _array = new int[3];
             LengthOfList = 0;
         }
-
-        public void Add(int value)
+        public ArrayList(int value)
         {
-            if (LengthOfList>=_array.Length)
+            _array = new int[3];
+            _array[0] = value;
+            LengthOfList = 1;
+        }
+        public ArrayList(int[] array)
+        {
+                _array = new int[array.Length +3];
+                Array.Copy(array, _array, array.Length);
+                LengthOfList = array.Length;
+        } 
+
+        public int this[int index]
+        {
+            get
             {
-                RiseSize();
+                if (index < 0) throw new Exception("Index have to be grater than zero!");
+                if (index >= LengthOfList) throw new Exception("Index is out of range!");
+                return _array[index];
             }
-            _array[LengthOfList] = value;
-            LengthOfList++;
+            set
+            {
+                if (index < 0) throw new Exception("Index have to be grater than zero!");
+                if (index >= LengthOfList) throw new Exception("Index is out of range!");
+                _array[index] = value;
+            }
+        }
+        public void Add(int[] values)
+        {
+            for(int i=0;i<values.Length;i++)
+            {
+                if (LengthOfList >= _array.Length)
+                {
+                    RiseSize();
+                }
+                _array[LengthOfList] = values[i];
+                LengthOfList++;
+            }
+           
         }
         public void ReverseTheList()
         {
-            int[] newArray = new int[_array.Length];
-            for (int i=0;i<LengthOfList;i++)
+            for (int i=0;i<LengthOfList/2;i++)
             {
-                newArray[i] = _array[LengthOfList - 1 - i];
+                int cur = _array[i];
+                _array[i] = _array[LengthOfList-1 - i];
+                _array[LengthOfList-1 - i] = cur;
             }
-            _array = newArray ;
         }
-        public void AddElementToTheBeginning(int value)
+        public void AddElementsToTheBeginning(int[] values)
         {
             if (LengthOfList>=_array.Length)
             {
                 RiseSize();
             }
-            int[] newArray = new int[_array.Length+1];
-            newArray[0] = value;
-            Array.Copy(_array,0,newArray,1,_array.Length);
+            int[] newArray = new int[_array.Length+values.Length];
+            Array.Copy(values, newArray, values.Length);
+            Array.Copy(_array,0,newArray,values.Length,_array.Length);
             _array = newArray;
-            LengthOfList++;
+            LengthOfList+=values.Length;
         }
 
-        public void AddElementToTheIndex(int value, int index)
+        public void AddElementsToTheIndex(int[] values, int index)
         {
             if (index < 0) throw new Exception("Index can't be less than zero!");
-            if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
+            if (index > LengthOfList) throw new Exception("Index is out of the length of the list!");
             if (LengthOfList >= _array.Length)
             {
                 RiseSize();
             }
-            int[] newArray = new int[_array.Length + 1];
-            newArray[index] = value;
-            for(int i=0;i<index;i++)
+            int[] newArray = new int[_array.Length + values.Length];
+            int i = 0;
+            do
             {
-                newArray[i] = _array[i];
-            }
-            for(int i=index+1;i<newArray.Length;i++)
-            {
-                newArray[i] = _array[i - 1];
-            }
+                if (i < index )
+                {
+                    newArray[i] = _array[i];
+                }
+                else if(i >= values.Length + index)
+                {
+                    newArray[i] = _array[i - values.Length];
+                }
+                else 
+                {
+                    newArray[i] = values[i - index];
+                }
+                i++;
+            } while (i < newArray.Length);
             _array = newArray;
-            LengthOfList++;
+            LengthOfList+=values.Length;
         }
 
-        public void Remove()
+        public void Remove(int n=1)
         {
+            if (n > LengthOfList) throw new Exception("The amount of elements to remove is grater than the amount of elements in the array!");
+            if (n < 0) throw new Exception("The amount of elements to remove have to be grater than zero!");
             if (LengthOfList == 0) throw new Exception("There is nothing to remove");
+            while (n>0)
+            { 
             _array[LengthOfList - 1] = 0;
             LengthOfList--;
-            if(LengthOfList<_array.Length/2)
+                n--;
+            }
+            if (LengthOfList<_array.Length/2)
             {
                 ReduceSize();
             }
         }
 
-        public void RemoveFromBeginning()
+        public void RemoveFromBeginning(int n = 1)
         {
             if (LengthOfList == 0) throw new Exception("There is nothing to remove");
-            int[] newArray = new int[_array.Length];
-            Array.Copy(_array, 1, newArray, 0, LengthOfList);
-            _array = newArray;
-            LengthOfList--;
-            if (LengthOfList < _array.Length / 2)
-            {
-                ReduceSize();
-            }
+            if (n > LengthOfList) throw new Exception("The amount of elements to remove is grater than the amount of elements in the array!");
+            if (n < 0) throw new Exception("The amount of elements to remove have to be grater than zero!");
+                for (int i = n; i < LengthOfList; i++)
+                {
+                    _array[i - n] = _array[i];
+                }
+                LengthOfList-=n;               
+                if (LengthOfList < _array.Length / 2)
+                {
+                    ReduceSize();
+                }
         }
-
-        public void RemoveFromIndex(int index)
+        public void RemoveFromIndex(int index, int n=1)
         {
+            if (n > LengthOfList) throw new Exception("The amount of elements to remove is grater than the amount of elements in the array!");
+            if (n < 0) throw new Exception("The amount of elements to remove have to be grater than zero!");
             if (LengthOfList == 0) throw new Exception("There is nothing to remove");
             if (index < 0) throw new Exception("Index can't be less than zero!");
             if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
-            int[] newArray = new int[_array.Length];
-            for(int i=0;i<index;i++)
+            if (n + index > LengthOfList) throw new Exception("You can't delete so many elements from this index!");
+            for(int i=index+n;i<LengthOfList;i++)
             {
-                newArray[i] = _array[i];
+                _array[i - n] = _array[i];
             }
-            for(int i=index+1;i<_array.Length;i++)
-            {
-                newArray[i - 1] = _array[i];
-            }
-            _array = newArray;
-            LengthOfList--;
+            LengthOfList -= n;
             if (LengthOfList < _array.Length / 2)
             {
                 ReduceSize();
             }
 
-        }
-
-        public int GetTheElementByIndex(int index)
-        {
-            if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
-            if (index<0) throw new Exception("Index can't be less than zero!");
-            return _array[index];
         }
 
         public int GetTheIndexByValue(int value)
@@ -136,13 +172,6 @@ namespace DataStructures
             }
             if (check) return index;
             else throw new Exception("There are not elements with value you are looking for");
-        }
-
-        public void EditElementAtIndex(int index, int value)
-        {
-            if (index >= LengthOfList) throw new Exception("Index is out of the length of the list!");
-            if (index < 0) throw new Exception("Index can't be less than zero!");
-            _array[index] = value;
         }
 
         public int GetMaxElement()
@@ -196,10 +225,9 @@ namespace DataStructures
         }
 
         public ArrayList SortAscending()
-        {
-            ArrayList newList = new ArrayList();
-            int[] newArray = new int[_array.Length];
-            Array.Copy(_array, newArray, _array.Length);
+        { 
+            int[] newArray = new int[LengthOfList];
+            Array.Copy(_array, newArray, LengthOfList);
             int start;
             for(int i=0;i<LengthOfList;i++)
             {
@@ -214,21 +242,15 @@ namespace DataStructures
                     }
                 }
             }
-
-            for(int i=0;i<LengthOfList;i++)
-            {
-                newList.Add(newArray[i]);
-            }
+            ArrayList newList = new ArrayList(newArray);
 
             return newList;
         }
 
-
         public ArrayList SortDescending()
         {
-            ArrayList newList = new ArrayList();
-            int[] newArray = new int[_array.Length];
-            Array.Copy(_array, newArray, _array.Length);
+            int[] newArray = new int[LengthOfList];
+            Array.Copy(_array, newArray, LengthOfList);
             int start;
             for (int i = 0; i < LengthOfList; i++)
             {
@@ -243,12 +265,7 @@ namespace DataStructures
                     }
                 }
             }
-
-            for (int i = 0; i < LengthOfList; i++)
-            {
-                newList.Add(newArray[i]);
-            }
-
+            ArrayList newList = new ArrayList(newArray);
             return newList;
         }
 
@@ -298,13 +315,32 @@ namespace DataStructures
             }
             Console.WriteLine(n);
         }
-
-
         public override bool Equals(object obj)         //для тестов
         {
+            ArrayList objList = (ArrayList)obj;
+            if(objList.LengthOfList!=LengthOfList)
+            {
+                return false;
+            }
+            else
+            {
+                for(int i=0;i<LengthOfList;i++)
+                {
+                    if (objList[i] != this[i]) return false;
+                }
+            }
             return true;
         }
 
+        public override string ToString()
+        {
+            string s = "";
+            for(int i=0;i<LengthOfList;i++)
+            {
+                s += this[i] + "; ";
+            }
+            return s;
+        }
 
         private void RiseSize(int amountOfBlankElements=1)
         {
