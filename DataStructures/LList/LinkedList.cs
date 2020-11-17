@@ -64,6 +64,24 @@ namespace DataStructures.LList
             }
         }
 
+        public int GetIndexByValue(int value)
+        {
+            Node cur = _root;
+            int i = 0;
+            bool check = false;
+            while(i<Length)
+            {
+                if (cur.Value == value)
+                {
+                    check = true;
+                    break;
+                }
+                cur = cur.Next;
+                i++;
+            }
+            if (!check) throw new Exception("List doesn't contain such a value.");
+            else return i;
+        }
         public void Add(int[] values)
         {
             Node tmp = _root;
@@ -154,6 +172,72 @@ namespace DataStructures.LList
                 _root = curRoot;
             }
         }
+
+        public void Remove(int n=1)
+        {
+            if (n < 0 || n > Length) throw new Exception("The amount of elements can't be less than zero and grater than length of list!");
+            int i = 0;
+            if (n != 0)
+            {
+                Node cur = _root;
+                while (i > Length - n)
+                {
+                    cur = cur.Next;
+                    i++;
+                }
+                cur.Next = null;
+                Length = Length - n;
+            }
+            
+        }
+        public void RemoveFromBeginning(int n=1)
+        {
+            if(n<0||n>Length) throw new Exception("The amount of elements can't be less than zero and grater than length of list!");
+            int i = 0;
+            Node cur = _root;
+            while(i<n)
+            {
+                cur = cur.Next;
+                i++;
+            }
+            _root = cur;
+            Length -= n;
+        }
+        public void RemoveFromIndex(int index, int n)
+        {
+            if(n<0||n+index>Length) throw new Exception("The amount of elements can't be less than zero and grater than length of list!");
+            if (index < 0 || index > Length - 1) throw new Exception("Index can't be less than zero and grater than length of list!");
+            int i = 0;
+            if(index!=0)
+            {
+                Node curRoot = _root;
+                Node cur = curRoot; ;
+                while (i<index-1)
+                {
+                    cur = cur.Next;
+                    i++;
+                }
+                Node pnt = cur;
+                Length -= n;
+                while(n>0)
+                {
+                    pnt = pnt.Next;
+                    n--;
+                }
+                cur.Next = pnt.Next;
+                _root = curRoot;
+            }
+            else
+            {
+                Length -= n;
+                while (0<n)
+                {
+                    _root = _root.Next;
+                    n--;
+                }
+                
+            }
+        }
         public override string ToString()
         {
             string s = "";
@@ -187,5 +271,6 @@ namespace DataStructures.LList
             return true;
             
         }
+
     }
 }
