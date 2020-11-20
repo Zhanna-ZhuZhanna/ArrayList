@@ -38,7 +38,7 @@ namespace ArrayListTests
         {
             ArrayList expected = new ArrayList(expectedArray);
             ArrayList actual = new ArrayList(actualArray);
-            actual.AddElementsToTheBeginning(values);
+            actual.AddToTheBeginning(values);
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
 
@@ -58,7 +58,7 @@ namespace ArrayListTests
         {
             ArrayList expected = new ArrayList(expectedArray);
             ArrayList actual = new ArrayList(actualArray);
-            actual.AddElementsToTheIndex(values, index);
+            actual.AddToTheIndex(values, index);
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
         [TestCase(new int[] {0 }, -1, new int[] { 3, 2, 1 })]
@@ -68,7 +68,7 @@ namespace ArrayListTests
             try
             {
                 ArrayList actual = new ArrayList(actualArray);
-                actual.AddElementsToTheIndex(values, index);
+                actual.AddToTheIndex(values, index);
             }
             catch
             {
@@ -175,7 +175,7 @@ namespace ArrayListTests
         public void TestGetTheIndexByValue(int value, int expected, int[] actualArray)
         {
             ArrayList actualList = new ArrayList(actualArray);
-            int actual = actualList.GetTheIndexByValue(value);
+            int actual = actualList.GetIndexByValue(value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,7 +185,7 @@ namespace ArrayListTests
             try
             {
                 ArrayList actualList = new ArrayList(actualArray);
-                int actual = actualList.GetTheIndexByValue(value);
+                int actual = actualList.GetIndexByValue(value);
             }
             catch
             {

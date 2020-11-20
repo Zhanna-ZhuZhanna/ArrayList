@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataStructures.LList
 {
-   public class LinkedList
+   public class LinkedList : IList
     {
         public int Length { get; private set; }
         private Node _root { get; set; }
@@ -237,6 +237,290 @@ namespace DataStructures.LList
                 }
                 
             }
+        }
+        public int GetMaxElement()
+        {
+            if (_root != null)
+            {
+                int max = _root.Value;
+                Node cur = _root.Next;
+                while(cur!=null)
+                {
+                    if (max < cur.Value) max = cur.Value;
+                    cur = cur.Next;
+                }
+                return max;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public int GetMinElement()
+        {
+            if (_root != null)
+            {
+                int min = _root.Value;
+                Node cur = _root.Next;
+                while (cur != null)
+                {
+                    if (min> cur.Value) min = cur.Value;
+                    cur = cur.Next;
+                }
+                return min;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public int GetMaxElementIndex()
+        {
+            if (_root != null)
+            {
+                int index = 0;
+                int i = 1;
+                int max = _root.Value;
+                Node cur = _root.Next;
+                while (cur != null)
+                {
+                    if (max < cur.Value)
+                    { 
+                        max = cur.Value;
+                        index = i;
+                    }
+                    cur = cur.Next;
+                    i++;
+                }
+                return index;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public int GetMinElementIndex()
+        {
+            if (_root != null)
+            {
+                int index = 0;
+                int i = 1;
+                int min = _root.Value;
+                Node cur = _root.Next;
+                while (cur != null)
+                {
+                    if (min > cur.Value)
+                    {
+                        min = cur.Value;
+                        index = i;
+                    }
+                    cur = cur.Next;
+                    i++;
+                }
+                return index;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public void RemoveFirstElementByValue(int value)
+        {
+            if (_root != null)
+            {
+                bool check = false;
+                int i = 0;
+                Node curRoot = _root;
+                Node cur = curRoot;
+                Node prev = cur;
+                while (i < Length)
+                {
+                    if (cur.Value == value)
+                    {
+                        if (i == 0)
+                        {
+                            if (cur.Next != null) curRoot = cur.Next;
+                            else curRoot = null;
+                            check = true;
+                            Length--;
+                            break;
+                        }
+                        else if (i == Length - 1)
+                        {
+                            prev.Next = null;
+                            Length--;
+                            check = true;
+                            break;
+                        }
+                        else
+                        {
+                            prev.Next = cur.Next;
+                            Length--;
+                            check = true;
+                            break;
+                        } 
+                    }
+                    if (i > 0)
+                    {
+                        prev = cur;
+                    }
+                    cur = cur.Next;
+                    i++;
+                }
+                if (!check)
+                {
+                    throw new Exception("The list doesn't contain such a value!");
+                }
+                else _root = curRoot;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public void RemoveAllElementsByValue(int value)
+        {
+            if (_root != null)
+            {
+                bool check = false;
+                bool change = false;
+                int i = 0;
+                Node curRoot = _root;
+                Node cur = curRoot;
+                Node prev = cur;
+                while (i < Length)
+                {
+                    if (cur.Value == value)
+                    {
+                        if (i == 0)
+                        {
+                            if (cur.Next != null)
+                            { 
+                                curRoot = cur.Next;
+                                prev = curRoot;
+                                //i = -1;
+                            }
+                            else curRoot = null;
+                            check = true;
+                            change = true;
+                            i--;
+                            Length--;
+                        }
+                        else if (i == Length - 1)
+                        {
+                            prev.Next = null;
+                            Length--;
+                            check = true;
+                        }
+                        else
+                        {
+                            prev.Next = cur.Next;
+                            change = true;
+                            Length--;
+                            i--;
+                            check = true;
+                        }
+                    }
+                    if (i > 0)
+                    {
+                        if (!change)
+                        {
+                            prev = cur;
+                        }
+                       else change = false;
+                    }
+                    cur = cur.Next;
+                    i++;
+                    change = false;
+                }
+                if (!check)
+                {
+                    throw new Exception("The list doesn't contain such a value!");
+                }
+                else _root = curRoot;
+            }
+            else throw new Exception("The list is empty!");
+        }
+
+        public void ReverseTheList()
+        {
+            if (Length != 0)
+            {
+                Node oldRoot = _root;
+                Node tmp;
+                while (oldRoot.Next != null)
+                {
+                    tmp = oldRoot.Next;
+                    oldRoot.Next = tmp.Next;
+                    tmp.Next = _root;
+                    _root = tmp;
+                }
+            }
+        }
+        public void SortAscending()
+        {
+            int i = 0;
+            Node tmp;
+            Node curRoot = _root;
+            Node cur=curRoot;
+            Node curPrev=cur; 
+            while(i<Length-1)
+            {
+                if(cur.Next.Value<cur.Value)
+                {
+                    tmp = cur.Next;
+                    cur.Next = tmp.Next;
+                    tmp.Next = cur;
+                    if(i==0)
+                    {
+                        curRoot = tmp;
+                    }
+                    else
+                    {
+                        curPrev.Next = tmp;
+                    }
+                    cur = curRoot;
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                    if(cur.Next!=null)
+                    {
+                        curPrev = cur;
+                        cur = cur.Next;
+                    }
+                }
+            }
+            _root = curRoot;
+        }
+
+        public void SortDescending()
+        {
+            int i = 0;
+            Node tmp;
+            Node curRoot = _root;
+            Node cur = curRoot;
+            Node curPrev = cur;
+            while (i < Length - 1)
+            {
+                if (cur.Next.Value > cur.Value)
+                {
+                    tmp = cur.Next;
+                    cur.Next = tmp.Next;
+                    tmp.Next = cur;
+                    if (i == 0)
+                    {
+                        curRoot = tmp;
+                    }
+                    else
+                    {
+                        curPrev.Next = tmp;
+                    }
+                    cur = curRoot;
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                    if (cur.Next != null)
+                    {
+                        curPrev = cur;
+                        cur = cur.Next;
+                    }
+                }
+            }
+            _root = curRoot;
         }
         public override string ToString()
         {

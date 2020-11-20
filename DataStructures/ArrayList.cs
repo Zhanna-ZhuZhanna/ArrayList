@@ -3,7 +3,7 @@ using System.Net.NetworkInformation;
 
 namespace DataStructures
 {
-    public class ArrayList
+    public class ArrayList:IList
     {
         private int[] _array;   
         public int LengthOfList { get; private set; }
@@ -62,7 +62,7 @@ namespace DataStructures
                 _array[LengthOfList-1 - i] = cur;
             }
         }
-        public void AddElementsToTheBeginning(int[] values)
+        public void AddToTheBeginning(int[] values)
         {
             if (LengthOfList>=_array.Length)
             {
@@ -75,7 +75,7 @@ namespace DataStructures
             LengthOfList+=values.Length;
         }
 
-        public void AddElementsToTheIndex(int[] values, int index)
+        public void AddToTheIndex(int[] values, int index)
         {
             if (index < 0) throw new Exception("Index can't be less than zero!");
             if (index > LengthOfList) throw new Exception("Index is out of the length of the list!");
@@ -157,7 +157,7 @@ namespace DataStructures
 
         }
 
-        public int GetTheIndexByValue(int value)
+        public int GetIndexByValue(int value)
         {
             bool check = false;
             int index = 0;
