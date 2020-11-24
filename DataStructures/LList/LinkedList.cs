@@ -253,7 +253,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public int GetMinElement()
         {
             if (_root != null)
@@ -269,7 +268,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public int GetMaxElementIndex()
         {
             if (_root != null)
@@ -292,7 +290,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public int GetMinElementIndex()
         {
             if (_root != null)
@@ -315,7 +312,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public void RemoveFirstElementByValue(int value)
         {
             if (_root != null)
@@ -367,7 +363,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public void RemoveAllElementsByValue(int value)
         {
             if (_root != null)
@@ -431,7 +426,6 @@ namespace DataStructures.LList
             }
             else throw new Exception("The list is empty!");
         }
-
         public void ReverseTheList()
         {
             if (Length != 0)
@@ -484,7 +478,6 @@ namespace DataStructures.LList
             }
             _root = curRoot;
         }
-
         public void SortDescending()
         {
             int i = 0;

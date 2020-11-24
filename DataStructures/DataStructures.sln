@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppForDebugging", "..\ConsoleAppForDebugging\ConsoleAppForDebugging.csproj", "{118BD3A0-D7B3-4E28-94DD-E0D218CE4581}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListTests", "..\ArrayListTests\ArrayListTests.csproj", "{94B1DE98-ACA3-4954-84F7-D5ED2E37EB4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArrayListTests", "..\ArrayListTests\ArrayListTests.csproj", "{94B1DE98-ACA3-4954-84F7-D5ED2E37EB4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
