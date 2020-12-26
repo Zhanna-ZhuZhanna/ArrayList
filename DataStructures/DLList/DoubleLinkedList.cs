@@ -50,7 +50,22 @@ namespace DataStructures.DLList
             }
         }
 
+        public int this[int index]
+        {
+            get
+            {
+                if (index < 0) throw new Exception("Index can't be less than zero!");
+                if (index > Length) throw new Exception("Index is out of range!");
 
+                return GetNode(index).Value;
+            }
+            set
+            {
+                if (index < 0) throw new Exception("Index can't be less than zero!");
+                if (index > Length) throw new Exception("Index is out of range!");
+                GetNode(index).Value = value;
+            }
+        }
 
         public override bool Equals(object obj)
         {
@@ -88,6 +103,32 @@ namespace DataStructures.DLList
                 tmp = tmp.Next;
             }
             return s;
+        }
+
+        private Node GetNode(int index)
+        {
+            Node tmp;
+            if(Length/2 >index)
+            {
+                int i = 0;
+                tmp = _head;
+                while(i<index)
+                {
+                    tmp = tmp.Next;
+                    i++;
+                }
+            }
+            else
+            {
+                int i = Length-2;
+                tmp = _tail;
+                while(i>index)
+                {
+                    tmp = tmp.Previous;
+                    i--;
+                }
+            }
+            return tmp;
         }
     }
 }
