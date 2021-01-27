@@ -6,10 +6,10 @@ namespace DataStructures.DLList
 {
    public class DoubleLinkedList
     {
-        public int Length { get; private set; }
+       
         private Node _head { get; set; }
         private Node _tail { get; set; }
-
+        public int Length { get; private set; }
         public DoubleLinkedList()
         {
             _head = null;
@@ -67,12 +67,139 @@ namespace DataStructures.DLList
             }
         }
 
+        public void Add(int[] values)
+        {
+            Node tmp = _tail;
+            if (tmp != null)
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Node cur = new Node(values[i]);
+                    tmp.Next = cur;
+                    cur.Previous = tmp;
+                    tmp = tmp.Next;
+                    Length++;
+                }
+                _tail = tmp;
+            }
+            else if (values.Length > 0)
+            {
+                _head = new Node(values[0]);
+                _head.Previous = null;
+                tmp = _head;
+                Length++;
+                for (int i = 1; i < values.Length; i++)
+                {
+                    Node cur = new Node(values[i]);
+                    tmp.Next = cur;
+                    cur.Previous = tmp;
+                    tmp = tmp.Next;
+                    Length++;
+                }
+                _tail = tmp;
+                _tail.Next = null;
+            }
+
+        }
+
+        public void AddToTheBeginning(int[] values)
+        {
+            
+            if (values.Length != 0)
+            {
+                Node curRoot = new Node(values[0]);
+                Length += values.Length;
+                Node cur = curRoot;
+                cur.Previous = null;
+                for (int i = 1; i < values.Length; i++)
+                {
+                    cur.Next = new Node(values[i]);
+                    cur.Next.Previous = cur;
+                    cur = cur.Next;
+                }
+                if(_head!=null)
+                {
+                    _head.Previous = cur;
+                    cur.Next = _head;
+                }
+                else
+                {
+                    _tail = cur;
+                }
+                _head = curRoot;
+            }
+        }
+
+        public void AddToTheIndex(int[] values, int index)
+        {
+            if (index < 0) throw new Exception("Index is out of range!");
+            if (index > Length) throw new Exception("Index is out of range!");
+            if (values.Length == 0) throw new Exception("The array of values is empty!");
+            if (index >0 && index<Length)
+            {
+                Node curRoot = _head;
+                Node cur = GetNode(index - 1);
+
+                Node curNextNode = cur.Next;
+                Node tmp = new Node(values[0]);
+                cur.Next = tmp;
+                tmp.Previous = cur;
+                for (int i = 1; i < values.Length; i++)
+                {
+                    tmp.Next = new Node(values[i]);
+                    tmp.Next.Previous = tmp;
+                    tmp = tmp.Next;
+                }
+                tmp.Next = curNextNode;
+                Length += values.Length;
+                _head = curRoot;
+            }
+            else if(index==Length)
+            {
+                Add(values);
+            }
+            else
+            {
+                AddToTheBeginning(values);
+            }
+        }
+
+
+
+
+
+        public void ReverseTheList()
+        {
+            if (Length != 0)
+            {
+                Node oldHead = _head;
+                Node tmp = oldHead.Next;
+                oldHead.Next = null;
+                oldHead.Previous = tmp;
+                Node cur = oldHead;
+                while (tmp.Next != null)
+                {
+                    tmp.Previous = tmp.Next;
+                    tmp.Next = cur;
+                    cur = tmp;
+                    tmp = tmp.Previous;
+                }
+                tmp.Next = tmp.Previous;
+                tmp.Previous = null;
+                _head = tmp;
+                _tail = oldHead;
+            }
+        }
         public override bool Equals(object obj)
         {
             DoubleLinkedList objList = (DoubleLinkedList)obj;
             if(objList.Length!=Length)
             {
                 return false;
+            }
+            else if(Length==0)
+            {
+                return true;
             }
            else
             {
@@ -120,7 +247,7 @@ namespace DataStructures.DLList
             }
             else
             {
-                int i = Length-2;
+                int i = Length-1;   
                 tmp = _tail;
                 while(i>index)
                 {
