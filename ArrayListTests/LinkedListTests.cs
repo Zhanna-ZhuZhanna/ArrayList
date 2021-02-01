@@ -197,6 +197,8 @@ namespace ArrayListTests
             }
             Assert.Fail();
         }
+
+
         [TestCase(0, new int[] { -1,-2,0,-5,-33})]
         [TestCase(0, new int[] { 0 })]
         [TestCase(0, new int[] {0, -2, -5, -33 })]
@@ -273,6 +275,7 @@ namespace ArrayListTests
             }
             Assert.Fail();
         }
+
         [TestCase(4, new int[] { -1, -2, 0, -5, -33 })]
         [TestCase(0, new int[] { 0 })]
         [TestCase(3, new int[] { 0, -2, -5, -33 })]

@@ -115,7 +115,6 @@ namespace DataStructures.LList
             }
           
         }
-
         public void AddToTheBeginning(int[] values)
         {
             if (values.Length != 0)
@@ -132,7 +131,6 @@ namespace DataStructures.LList
                 _root = curRoot;
             }
         }
-
         public void AddToTheIndex(int[] values, int index)
         {
             if (index < 0) throw new Exception("Index is out of range!");
@@ -172,7 +170,6 @@ namespace DataStructures.LList
                 _root = curRoot;
             }
         }
-
         public void Remove(int n=1)
         {
             if (n < 0 || n > Length) throw new Exception("The amount of elements can't be less than zero and grater than length of list!");
@@ -238,6 +235,7 @@ namespace DataStructures.LList
                 
             }
         }
+
         public int GetMaxElement()
         {
             if (_root != null)

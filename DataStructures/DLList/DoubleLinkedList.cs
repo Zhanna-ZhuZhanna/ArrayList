@@ -4,9 +4,8 @@ using System.Text;
 
 namespace DataStructures.DLList
 {
-   public class DoubleLinkedList
+   public class DoubleLinkedList:IList
     {
-       
         private Node _head { get; set; }
         private Node _tail { get; set; }
         public int Length { get; private set; }
@@ -54,15 +53,18 @@ namespace DataStructures.DLList
         {
             get
             {
-                if (index < 0) throw new Exception("Index can't be less than zero!");
-                if (index > Length) throw new Exception("Index is out of range!");
-
+                if (index < 0) 
+                    throw new Exception("Index can't be less than zero!");
+                if (index > Length) 
+                    throw new Exception("Index is out of range!");
                 return GetNode(index).Value;
             }
             set
             {
-                if (index < 0) throw new Exception("Index can't be less than zero!");
-                if (index > Length) throw new Exception("Index is out of range!");
+                if (index < 0) 
+                    throw new Exception("Index can't be less than zero!");
+                if (index > Length) 
+                    throw new Exception("Index is out of range!");
                 GetNode(index).Value = value;
             }
         }
@@ -132,9 +134,12 @@ namespace DataStructures.DLList
 
         public void AddToTheIndex(int[] values, int index)
         {
-            if (index < 0) throw new Exception("Index is out of range!");
-            if (index > Length) throw new Exception("Index is out of range!");
-            if (values.Length == 0) throw new Exception("The array of values is empty!");
+            if (index < 0) 
+                throw new Exception("Index is out of range!");
+            if (index > Length) 
+                throw new Exception("Index is out of range!");
+            if (values.Length == 0)
+                throw new Exception("The array of values is empty!");
             if (index >0 && index<Length)
             {
                 Node curRoot = _head;
@@ -164,10 +169,6 @@ namespace DataStructures.DLList
             }
         }
 
-
-
-
-
         public void ReverseTheList()
         {
             if (Length != 0)
@@ -190,6 +191,256 @@ namespace DataStructures.DLList
                 _tail = oldHead;
             }
         }
+
+        public int GetIndexByValue(int value)
+        {
+            for(int i=0;i<Length;i++)
+            {
+                if (this[i] == value) return i;
+            }
+            throw new Exception("There is not such a value in the list...");
+        }
+
+        public void Remove(int n)
+        {
+            if (n > Length)
+                throw new Exception("The amount of elements you want to remove is bigger than length of the list!");
+            if (n < 0)
+                throw new Exception("The amount of elements to remove have to be grater than zero!");
+            if (Length == n)
+            {
+                Length = 0;
+                _head = null;
+                _tail = null;
+            }
+            else
+            {
+                Node tmp = _tail;
+                int i = 0;
+                while (i < n)
+                {
+                    tmp = tmp.Previous;
+                    i++;
+                }
+                tmp.Next = null;
+                _tail = tmp;
+                Length -= n;
+            }
+
+        }
+
+        public void RemoveFromBeginning(int n)
+        {
+            if (n > Length) 
+                throw new Exception("The amount of elements you want to remove is bigger than length of the list!");
+            if (n < 0) 
+                throw new Exception("The amount of elements to remove have to be grater than zero!");
+            if (Length == n)
+            {
+                Length =0;
+                _head = null;
+                _tail = null;
+            }
+            else
+            {
+                Node tmp = _head;
+                int i = 0;
+               while(i<n)
+                {
+                    tmp = tmp.Next;
+                    i++;
+                }
+                tmp.Previous = null;
+                _head = tmp;
+                Length -= n;
+            }
+        }
+
+        public void RemoveFromIndex(int index, int n)
+        {
+            if (n < 0 || n + index > Length) 
+                throw new Exception("The amount of elements can't be less than zero and grater than length of list!");
+            if (index < 0 || index > Length - 1)
+                throw new Exception("Index can't be less than zero and grater than length of list!");
+            int i = 0;
+            if (index != 0)
+            {
+                Node nodeBeforeRemoving = GetNode(index).Previous;
+                if(n+index==Length)
+                {
+                    nodeBeforeRemoving.Next = null;
+                    _tail = nodeBeforeRemoving;
+                    Length -= n;
+                }
+                else
+                {
+                    Node tmp = nodeBeforeRemoving.Next;
+                    while(i<n)
+                    {
+                        tmp = tmp.Next;
+                        i++;
+                    }
+                    tmp.Previous = nodeBeforeRemoving;
+                    nodeBeforeRemoving.Next = tmp;
+                    Length -= n;
+                }
+            }
+            else
+            {
+                RemoveFromBeginning(n);
+            }
+        }
+
+        public int GetMaxElement()
+        {
+            if (Length == 0)
+                throw new Exception("There is not any elements for searching max!");
+            Node tmp = _head.Next;
+            int max = _head.Value;
+            while(tmp!=null)
+            {
+               
+                if (tmp.Value > max)
+                    max = tmp.Value;
+                tmp = tmp.Next;
+            }
+            return max;
+        }
+
+        public int GetMinElement()
+        {
+            if (Length == 0)
+                throw new Exception("There is not any elements for searching max!");
+            Node tmp = _head.Next;
+            int min = _head.Value;
+            while (tmp != null)
+            {
+
+                if (tmp.Value < min)
+                    min = tmp.Value;
+                tmp = tmp.Next;
+            }
+            return min;
+        }
+
+        public int GetMaxElementIndex()
+        {
+            if (Length == 0)
+                throw new Exception("There is not any elements for searching max!");
+            Node tmp = _head.Next;
+            int max = _head.Value;
+            while (tmp != null)
+            {
+
+                if (tmp.Value > max)
+                    max = tmp.Value;
+                tmp = tmp.Next;
+            }
+            return GetIndexByValue(max);
+        }
+
+        public int GetMinElementIndex()
+        {
+            if (Length == 0)
+                throw new Exception("There is not any elements for searching max!");
+            Node tmp = _head.Next;
+            int min = _head.Value;
+            while (tmp != null)
+            {
+
+                if (tmp.Value < min)
+                    min = tmp.Value;
+                tmp = tmp.Next;
+            }
+            return GetIndexByValue(min);
+        }
+
+        public void RemoveAllElementsByValue(int value)
+        {
+            Node tmp = _head;
+            bool check = false;
+            while (tmp != null)
+            {
+                if (tmp.Value == value)
+                {
+                    if (tmp.Previous != null && tmp.Next != null)
+                    {
+                        tmp.Previous.Next = tmp.Next;
+                        tmp.Next.Previous = tmp.Previous;
+                    }
+                    else if (tmp.Next == null && tmp.Previous == null)
+                    {
+                        _head = null;
+                        _tail = null;
+                    }
+                    else if (tmp.Next == null)
+                    {
+                        tmp.Previous.Next = tmp.Next;
+                        _tail = tmp.Previous;
+                    }
+                    else if (tmp.Previous == null)
+                    {
+                        tmp.Next.Previous = tmp.Previous;
+                        _head = tmp.Next;
+                    }
+                    check = true;
+                    Length--;
+                    
+                }
+                tmp = tmp.Next;
+            }
+            if (!check)
+                throw new Exception("There is not such a value in the list!");
+        }
+
+        public void RemoveFirstElementByValue(int value)
+        {
+            Node tmp = _head;
+            bool check = false;
+            while(tmp!=null)
+            {
+                if(tmp.Value==value)
+                {
+                    if (tmp.Previous != null && tmp.Next != null)
+                    {
+                        tmp.Previous.Next = tmp.Next;
+                        tmp.Next.Previous = tmp.Previous;
+                    }
+                    else if(tmp.Next==null && tmp.Previous==null)
+                    {
+                        _head = null;
+                        _tail = null;
+                    }
+                   else if(tmp.Next==null)
+                    {
+                        tmp.Previous.Next = tmp.Next;
+                        _tail = tmp.Previous;
+                    }
+                   else if(tmp.Previous==null)
+                    {
+                        tmp.Next.Previous = tmp.Previous;
+                        _head = tmp.Next;
+                    }
+                    check = true;
+                    Length--;
+                    break;
+                }
+                tmp = tmp.Next;
+            }
+            if (!check)
+                throw new Exception("There is not such a value in the list!");
+        }
+
+
+        public void SortAscending()
+        {
+            
+        }
+        public void SortDescending()
+        {
+            
+        }
+
         public override bool Equals(object obj)
         {
             DoubleLinkedList objList = (DoubleLinkedList)obj;

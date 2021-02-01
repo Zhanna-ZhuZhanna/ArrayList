@@ -20,8 +20,5 @@ namespace DataStructures
         void RemoveAllElementsByValue(int value);
         void RemoveFirstElementByValue(int value);
         void ReverseTheList();
-
-
-
     }
 }
