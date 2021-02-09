@@ -434,13 +434,96 @@ namespace DataStructures.DLList
 
         public void SortAscending()
         {
-            
+            Node tmp = _head;
+            Node newHead = _head;
+            if (Length > 0)
+            {
+                while (tmp.Next != null)
+                {
+                    if (tmp.Value > tmp.Next.Value)
+                    {
+                       tmp= SwapNodes(tmp, tmp.Next);
+                        if (tmp.Previous == null)
+                        {
+                            newHead = tmp;
+                        }
+                        tmp = newHead;
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
+
+                }
+                _head = newHead;
+                _tail = tmp;
+            }
         }
         public void SortDescending()
         {
-            
-        }
+            Node tmp = _head;
+            Node newHead = _head;
+            if (Length > 0)
+            {
+                while (tmp.Next != null)
+                {
+                    if (tmp.Value < tmp.Next.Value)
+                    {
+                        tmp = SwapNodes(tmp, tmp.Next);
+                        if (tmp.Previous == null)
+                        {
+                            newHead = tmp;
+                        }
+                        tmp = newHead;
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
 
+                }
+                _head = newHead;
+                _tail = tmp;
+            }
+        }
+        private Node SwapNodes(Node firstNode, Node secondNode)
+        {
+            if (firstNode.Previous != null&& secondNode.Next!=null)
+            {
+                firstNode.Previous.Next = secondNode;
+
+                secondNode.Previous = firstNode.Previous;
+                firstNode.Previous = secondNode;
+
+                secondNode.Next.Previous = firstNode;
+                firstNode.Next = secondNode.Next;
+                secondNode.Next = firstNode;
+            }
+            else if(secondNode.Next != null)
+            {
+                firstNode.Previous = secondNode;
+                firstNode.Next = secondNode.Next;
+                secondNode.Next.Previous = firstNode;
+                secondNode.Previous = null;
+                secondNode.Next = firstNode;
+            }
+            else if(firstNode.Previous!=null)
+            {
+                secondNode.Previous = firstNode.Previous;
+                secondNode.Previous.Next = secondNode;
+                secondNode.Next = firstNode;
+                firstNode.Previous = secondNode;
+                firstNode.Next = null;
+            }
+            else
+            {
+                secondNode.Next = firstNode;
+                firstNode.Previous = secondNode;
+                secondNode.Previous = null;
+                firstNode.Next = null;
+            }
+           return secondNode;
+        }
         public override bool Equals(object obj)
         {
             DoubleLinkedList objList = (DoubleLinkedList)obj;

@@ -376,5 +376,29 @@ namespace ArrayListTests
             }
             Assert.Fail();
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
+        [TestCase(new int[] { }, new int[] { })]
+        [TestCase(new int[] { 1, 2 }, new int[] { 2, 1 })]
+        [TestCase(new int[] { -5, 0, 1, 2 }, new int[] { 2, 0, 1, -5 })]
+        public void TestSortAsending(int[] expectedArray, int[] actualArray)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            actual.SortAscending();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 4, 3, 2, 1 }, new int[] { 1, 2, 3, 4 })]
+        [TestCase(new int[] { }, new int[] { })]
+        [TestCase(new int[] { 2, 1 }, new int[] { 1, 2 })]
+        [TestCase(new int[] { 2, 1, 0, -5 }, new int[] { 2, 0, 1, -5 })]
+        public void TestSortDesending(int[] expectedArray, int[] actualArray)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            actual.SortDescending();
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
